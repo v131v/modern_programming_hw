@@ -53,9 +53,11 @@ func main() {
 
 	if os.Args[1] == "decode" {
 		decodeCmd := flag.NewFlagSet("decode", flag.ExitOnError)
+		var hash string
 
 		decodeCmd.StringVar(&c.InputFilePath, "i", "", "Input file")
 		decodeCmd.StringVar(&c.OutputFilePath, "o", "", "Output file")
+		decodeCmd.StringVar(&hash, "h", "", "Hash")
 
 		err := decodeCmd.Parse(os.Args[2:])
 		if err != nil {
@@ -79,5 +81,11 @@ func main() {
 			log.Fatal(err)
 		}
 		fmt.Printf("Hash sum: %v\n", hex.EncodeToString(hashSum))
+
+		if hex.EncodeToString(hashSum) == hash {
+			fmt.Println("Hashes equal")
+		} else {
+			fmt.Println("Hashes are different")
+		}
 	}
 }
