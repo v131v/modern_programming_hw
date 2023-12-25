@@ -1,8 +1,10 @@
 package main
 
 import (
+	"encoding/hex"
 	"flag"
 	"fmt"
+	"log"
 	"os"
 	"strings"
 
@@ -42,7 +44,11 @@ func main() {
 			c.OutputFilePath = os.Args[2] + ".out"
 		}
 
-		c.EncodeFileToBase64()
+		hashSum, err := c.EncodeFileToBase64()
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Printf("Hash sum: %v\n", hex.EncodeToString(hashSum))
 	}
 
 	if os.Args[1] == "decode" {
@@ -68,6 +74,10 @@ func main() {
 			c.OutputFilePath = os.Args[2] + ".out"
 		}
 
-		c.DecodeFileToBase64()
+		hashSum, err := c.DecodeFileToBase64()
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Printf("Hash sum: %v\n", hex.EncodeToString(hashSum))
 	}
 }
